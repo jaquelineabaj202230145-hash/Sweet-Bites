@@ -470,6 +470,16 @@
 </head>
 <body>
 
+    <!-- Reproductor de Música de Fondo -->
+    <audio id="musicaFondo" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Botón flotante para activar/desactivar música -->
+    <button id="btnMusica" onclick="toggleMusica()" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; background-color: var(--rojo-oscuro); color: white; border: none; border-radius: 50%; width: 55px; height: 55px; cursor: pointer; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; transition: transform 0.3s;">
+        <i class="fa-solid fa-music"></i>
+    </button>
+
     <!-- Navegación -->
     <nav>
         <a href="#" class="logo-container">
@@ -747,3 +757,30 @@
 
             // Codificar el mensaje y crear la URL
             const mensajeCodificado = encodeURIComponent(mensaje);
+            const url = `https://wa.me/${numeroWhatsApp}?text=${mensajeCodificado}`;
+            window.open(url, '_blank');
+        });
+
+        // Control de la música de fondo
+        const audio = document.getElementById('musicaFondo');
+        const btnMusica = document.getElementById('btnMusica');
+        let reproduciendo = false;
+
+        // Ajustar volumen inicial (0.4 = 40% de volumen)
+        audio.volume = 0.4;
+
+        function toggleMusica() {
+            if (reproduciendo) {
+                audio.pause();
+                btnMusica.innerHTML = '<i class="fa-solid fa-music"></i>'; // Icono de nota
+                btnMusica.style.transform = 'scale(1)';
+            } else {
+                audio.play().catch(error => console.log("El navegador bloqueó el audio"));
+                btnMusica.innerHTML = '<i class="fa-solid fa-pause"></i>'; // Icono de pausa
+                btnMusica.style.transform = 'scale(1.1)';
+            }
+            reproduciendo = !reproduciendo;
+        }
+    </script>
+</body>
+</html>
